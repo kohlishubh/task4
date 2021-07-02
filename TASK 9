@@ -1,0 +1,316 @@
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF 8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> KUBERNETES WEB SERVICES</title>
+    
+
+</head>
+
+<style>
+
+p {
+     text-align: center;
+}
+</style>
+
+<div class="header">
+    <div class="header-logo"><h1><p>KUBERNETES WEBAPP</p></h1>
+    </div>
+    <div class="header-list">
+
+    </div>
+</div>
+<style>
+
+    body{
+        background-image: url(https://kublr.com/wp-content/uploads/2020/08/AdobeStock_289803587_Micha-scaled.jpeg);
+        background-color: mediumslateblue;
+        height: 120%;
+        width: 95%;
+        opacity: 0.8;
+    }
+    .header-logo{
+        background-color: lightcoral;
+      
+    }
+
+    header{
+        text-align: center;
+    }
+    #inp1 {
+    color:white;
+        display: flex;
+        justify-content: center;
+        font-family: 'Patua One', cursive;
+        margin: 50px 0px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        
+    }
+    button{
+        margin: 4px;
+        border: darkslategrey;
+        background-color: gainsboro;
+        font-weight: bold;
+        border-radius: 10px;
+        height:43px;
+        width:65px;
+    }
+    button:hover{
+        background-color: khaki;
+        font-weight: bolder;
+        cursor: pointer;
+    }
+    #box {
+        width: 40rem;
+        height: 2.5rem;
+        font-family: 'Patua One',cursive;
+        font-size: 1.2rem;
+    }
+    h1 {
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif,cursive;
+        
+        font-size: 3rem;
+        height: 6rem;
+    }
+
+    #output {
+        margin: 100;
+        display: inline-block;
+        box-shadow: rgb(12, 11, 11);
+        padding: 22px 33px;
+        max-width: 52rem;
+        font-family: 'Patua One',cursive;
+        z-index: 10;
+        font-size: 1.2rem;
+        background-color: white;
+    }
+    </style>
+
+    <body>
+        <header>
+            <h1 style="color:white">Please Enter Your Command</h1>
+            <div id="inp1">
+                root@localhost-# <input id="box">
+                <button onclick="op()">Run</button>
+            </div>
+            <pre>
+                <span id="output"></span>
+            </pre>
+        </header>
+    </body>
+
+    <script>
+        function op() {
+            var xhr= new XMLHttpRequest(),
+            i=document.getElementById("box").value
+            xhr.open("GET","http://192.168.56.115/cgi-bin/k8s.py?x="+i,true),
+            xhr.send();
+            xhr.onload=function(){
+                var output = xhr.responseText;
+            document.getElementById('output').innerHTML = output;
+            }
+        }
+    </script>
+    
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+        .div1 {
+          background-color: rgb(215, 221, 198);
+          width: 300px;
+          border: 15px solid rgb(228, 235, 135);
+          padding: 50px;
+          margin: 20px;
+          position: absolute;
+          top: 500px;
+        }
+        .div2 {
+          background-color: rgb(215, 221, 198);
+          width: 300px;
+          border: 15px solid rgb(228, 235, 135);
+          padding: 50px;
+          margin: 20px;
+          position: absolute;
+          left: 500px;
+          top: 500px;
+        }
+        .div3 {
+          background-color: rgb(215, 221, 198);
+          width: 300px;
+          border: 15px solid rgb(228, 235, 135);
+          padding: 50px;
+          margin: 20px;
+          position: absolute;
+          left: 1000px;
+          top: 500px;
+        }
+        .div4 {
+          background-color: rgb(215, 221, 198);
+          width: 300px;
+          border: 15px solid rgb(228, 235, 135);
+          padding: 50px;
+          margin: 20px;
+          position: absolute;
+          top: 800px;
+        }
+        .div5 {
+          background-color: rgb(215, 221, 198);
+          width: 300px;
+          border: 15px solid rgb(228, 235, 135);
+          padding: 50px;
+          margin: 20px;
+          position: absolute;
+          left: 500px;
+          top: 800px;
+        }
+        .div6{
+          background-color: rgb(215, 221, 198);
+          width: 300px;
+          border: 15px solid rgb(228, 235, 135);
+          padding: 50px;
+          margin: 20px;
+          position: absolute;
+          left: 1000px;
+          top: 800px;
+        }
+        </style>
+        </head>
+        <body>
+            
+        
+            
+
+
+            <div class="div1"> POD name: <input type="text" id="d1">
+            
+            <center> <p>Enter pod name to launch pod</p></center>
+                
+                <center><button onclick="lw1()">Launch</button></center>
+           
+            </div>
+            <div class="div2">Deployment name: <input type="text" id="d2">
+            
+            <center> <p>enter deployment name to launch</p></center>
+                
+                <center><button onclick="lw2()">Launch</button></center>
+            </div>
+            <div class="div3">Expose: <input type="text" id="d3" >
+            
+            <center><p>Enter Deployment name to expose:</p></center>
+            <center><button onclick="lw3()">Expose</button></center>
+            </div>
+            <div class="div4">POD name: <input type="text" id="d4" >
+            
+            <center> <p>enter pod name to delete</p></center>
+                
+            <center><button onclick="lw4()">Delete</button></center>
+            </div>
+            <div class="div5">Deployment name: <input type="text" id="d5" >
+            
+            <center><p>Enter Deployment name to delete:</p></center>
+                
+            <center><button onclick="lw5()">Delete</button></center>
+            </div>
+            <div class="div6">Number of pods<input type="text" id="d6" /> 
+            <center> <p>You can scale in and scale out by entering number of pods you need</p> </center>
+            <center><button onclick="lw6()">Run</button></center>
+            </div>
+        </body>
+        </html>
+        <script>function lw1()
+            {
+                var i=document.getElementById("d1").value
+                var xhr= new XMLHttpRequest();
+                xhr.open("GET","http://192.168.1.41/cgi-bin/ks.py?a="+i,true);
+                xhr.send();
+                xhr.onload= Function
+                alert(i);
+                {
+                    var output= xhr.responseText;
+                    document.getElementById("d1").innerHTML=output;
+
+
+                }
+            }
+            function lw2()
+            {
+                {
+                var i=document.getElementById("d6").value
+                var xhr= new XMLHttpRequest();
+                xhr.open("GET","http://192.168.56.115/cgi-bin/ks.py?x="+i,true);
+                xhr.send();
+                xhr.onload= Function
+                alert(i);
+                {
+                    var output= xhr.responseText;
+                    document.getElementById("d6").innerHTML=output;
+                }
+            }
+            function lw3()
+            {
+                var i=document.getElementById("d3").value
+                var xhr= new XMLHttpRequest();
+                xhr.open("GET","http://192.168.1.41/cgi-bin/ks.py?c="+i,true);
+                xhr.send();
+                xhr.onload= Function
+                alert(i);
+                {
+                    var output= xhr.responseText;
+                    document.getElementById("d3").innerHTML=output;
+
+
+                }
+            }
+            function lw4()
+            {
+                var i=document.getElementById("d4").value
+                var xhr= new XMLHttpRequest();
+                xhr.open("GET","http://192.168.1.41/cgi-bin/ks.py?d="+i,true);
+                xhr.send();
+                xhr.onload= Function
+                alert(i);
+                {
+                    var output= xhr.responseText;
+                    document.getElementById("d4").innerHTML=output;
+
+
+                }
+            }
+            function lw5()
+            {
+                var i=document.getElementById("d5").value
+                var xhr= new XMLHttpRequest();
+                xhr.open("GET","http://192.168.1.41/cgi-bin/ks.py?e="+i,true);
+                xhr.send();
+                xhr.onload= Function
+                alert(i);
+                {
+                    var output= xhr.responseText;
+                    document.getElementById("d5").innerHTML=output;
+
+
+                }
+            }
+            function lw6()
+            {
+                var i=document.getElementById("d6").value
+                var xhr= new XMLHttpRequest();
+                xhr.open("GET","http://192.168.56.115/cgi-bin/ks.py?x="+i,true);
+                xhr.send();
+                xhr.onload= Function
+                alert(i);
+                {
+                    var output= xhr.responseText;
+                    document.getElementById("d6").innerHTML=output;
+
+
+                }
+            }
+        
+            </script>
