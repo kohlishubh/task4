@@ -1,0 +1,133 @@
+#WEBPAGE CODE
+<html lang="en">
+
+    <head>
+    
+        <meta charset="UTF 8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CAR DETAILS WEB OFFICE</title>
+        
+    
+    </head>
+    
+    <style>
+    
+    p {
+         text-align: center;
+    }
+    </style>
+    
+    <div class="header">
+        <div class="header-logo"><h1><p>CAR DETAILS WEB OFFICE</p></h1>
+        </div>
+        <div class="header-list">
+    
+        </div>
+    </div>
+    <style>
+    
+        body{
+            background-image: url(https://previews.123rf.com/images/pxlprostudio/pxlprostudio1903/pxlprostudio190300559/118077664-car-icon-on-background-for-graphic-and-web-design-simple-vector-sign-internet-concept-symbol-for-web.jpg);
+            background-color: mediumslateblue;
+            height: 90%;
+            width: 95%;
+            opacity: 0.8;
+        }
+        header-logo{
+            background-color: lightcoral;
+        }
+        button{
+            margin: 10px;
+            border: darkslategrey;
+            background-color: gainsboro;
+            font-weight: bold;
+            border-radius: 10px;
+        }
+        button:hover{
+            background-color: khaki;
+            font-weight: bolder;
+            cursor: pointer;
+        }
+        #box {
+            width: 30rem;
+            height: 1.5rem;
+            font-family: Arial, Helvetica, sans-serif,cursive;
+            font-size: 1.2rem;
+        }
+        h1 {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif,cursive;
+            font-size: 3rem;
+            height: 6rem;
+        }
+    </style>
+    
+   <center><body>
+        <header>
+            <h1>Please Enter Car Details</h1>
+            <div id="inp1">
+                 <input id="box">
+                <button onclick="op()">Search</button>
+            </div>
+            <pre>
+                <span id="output"></span>
+            </pre>
+        </header>
+    </body></center> 
+
+    <script>
+        function op() {
+            var xhr= new XMLHttpRequest(),
+            i=document.getElementById("box").value
+            xhr.open("GET","http://192.168.56.115/cgi-bin/ks.py",true),
+            xhr.send();
+            xhr.onload= function() {
+                var output = xhr.responseText;
+            document.getElementById("output").innerHTML = output;
+            }
+        }
+    </script>
+    
+    ----------------------------------------------------------------------------------
+    
+    TO RECOGNIZE NUMBER PLATE
+    
+import cv2
+from matplotlib import pyplot as plt
+import numpy as np
+import imutils
+import easyocr
+img = cv2.imread('car5.jpg')
+gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+plt.imshow(cv2.cvtColor(gray, cv2.COLOR_BGR2RGB))
+bfilter = cv2.bilateralFilter(gray,11,17,17)
+edged = cv2.Canny(bfilter, 30, 200)
+plt.imshow(cv2.cvtColor(edged,cv2.COLOR_BGR2RGB))
+keypoints = cv2.findContours(edged.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+contours= imutils.grab_contours(keypoints)
+contours = sorted (contours, key=cv2.contourArea, reverse=True)[:10]
+location = None
+for contour in contours:
+    approx = cv2.approxPolyDP(contour, 10, True)
+    if len(approx) == 4:
+        location = approx
+        break
+location
+mask = np.zeros(gray.shape, np.uint8)
+new_image = cv2.drawContours(mask, [location], 0, 255, -1)
+new_image = cv2.bitwise_and(img, img, mask=mask)
+plt.imshow(cv2.cvtColor(new_image, cv2.COLOR_BGR2RGB))
+(x,y) = np.where(mask==255)
+(x1,y1) = (np.min(x), np.min(y))
+(x2,y2) = (np.max(x), np.max(y))
+cropped_image = gray[x1:x2+1, y1:y2+1]
+plt.imshow(cv2.cvtColor(cropped_image, cv2.COLOR_BGR2RGB))
+reader = easyocr.Reader(['en'])
+result = reader.readtext(cropped_image)
+result
+text = result[0][-2]
+font = cv2.FONT_HERSHEY_SIMPLEX
+#res = cv2.putText(img, Text=Text, org=(approx[0][0][0], approx[1][0][1]+60, fontFace=font, fontScale=1, color=(0,255,0)))
+res= cv2.rectangle(img, tuple(approx[0][0]), tuple(approx[2][0]), (0,255,0),3)
+plt.imshow(cv2.cvtColor(res, cv2.COLOR_BGR2RGB))
+text
